@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")  //user , admin 가능
                 .antMatchers("/api/v1/admin/**")
                 .access("hasRole('ROLE_ADMIN')") //admin만 가능
-                .anyRequest().permitAll();  
+                .anyRequest().permitAll();  //jwt 기본 config 설정
 
 
     }
