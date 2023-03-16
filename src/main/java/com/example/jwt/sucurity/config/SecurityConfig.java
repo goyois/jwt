@@ -1,16 +1,26 @@
 package com.example.jwt.sucurity.config;
 
+import lombok.RequiredArgsConstructor;
+import org.apache.catalina.filters.CorsFilter;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final CorsFilter corsFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//세션 안씀
                 .and()
+                .addFilter(corsFilter)  //필터가 cors 정책에서 벗어날 수 있으므로 cors 오류 해결
                 .formLogin().disable()  //jwt서버이기 떄문에 아이디 로그인을 폼 로그인으로 안함
                 .httpBasic().disable()
                 .authorizeRequests()
